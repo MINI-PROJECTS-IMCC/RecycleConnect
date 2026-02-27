@@ -4,7 +4,7 @@ import "package:http/http.dart" as http;//to import http request response lib
 class ApiService {
   static const base_url="";
   //login api
-  static Future<bool> login({required String email,required password})async{
+  static Future<bool> login({required String email,required String password})async{
     try{
       final url=Uri.parse("$base_url/auth.login");
 
