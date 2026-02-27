@@ -52,11 +52,12 @@ class LoginPage extends StatefulWidget{
                 SizedBox(height:20),
                 Text("Enter Your Email:",style:TextStyle(fontSize:15,fontWeight:FontWeight.bold)),//this is used to add space between widgets
                 SizedBox(height:15),
-                TextField(decoration:InputDecoration(labelText:"Email",border:OutlineInputBorder())),//this is text field for user input
+                TextField(decoration:InputDecoration(labelText:"Email",border:OutlineInputBorder()),controller:email),//this is text field for user input
                 SizedBox(height:15),
                 Text("Enter Your Password:",style:TextStyle(fontSize:15,fontWeight:FontWeight.bold)),
                 SizedBox(height:15),
                 TextField(
+                  controller:password,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: !isPasswordVisible,
                   
