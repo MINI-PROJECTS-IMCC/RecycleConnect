@@ -1,4 +1,5 @@
 import "package:flutter/material.dart"; //this imports the material design library of google"
+import "package:flutter_application_1/screens/homepage.dart";
 import "sign-up.dart";
 import "forgot_password.dart";
 import "services/api_service.dart";
@@ -23,7 +24,11 @@ class LoginPage extends StatefulWidget{
   }
 
   class _LoginPageState extends State<LoginPage>{
-    bool isPasswordVisible=false;
+    //form object creation
+    final GlobalKey<FormState> _formkey=new GlobalKey<FormState>();
+    RegExp email_pattern=RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+    
+    bool isPasswordVisible=true;
     TextEditingController email=new TextEditingController();
     TextEditingController password=new TextEditingController();
      Widget build(BuildContext context) {
@@ -36,89 +41,107 @@ class LoginPage extends StatefulWidget{
                   ),
               
             child:Center(
-            child:Container(//Container is a box that can contain other widgets and apply styling and layout control
+            child:Container(//conatiner for form
             width:400,
-            padding:EdgeInsets.all(20),//padding inside container
-            decoration:BoxDecoration(//decoration is used for styling
-              color:Colors.white,//background color of container
-              borderRadius:BorderRadius.circular(10),//rounded corners
+             padding:EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color:Colors.white,
+              borderRadius:BorderRadius.circular(20)
+
             ),
-            child:Column(//Column arranges children vertically
-              mainAxisSize:MainAxisSize.min,//size of column is as big as its children
-              crossAxisAlignment: CrossAxisAlignment.start,//by default set to left
-              children:[//it will conatin all widgets
-                Center(//centers content horizontally and vertically
-                child:Text("Welcome to RecycleConnect",style:TextStyle(fontSize:25,fontWeight:FontWeight.bold,color:Colors.lightGreen))),//this is text widget to show text
-                SizedBox(height:20),
-                Text("Enter Your Email:",style:TextStyle(fontSize:15,fontWeight:FontWeight.bold)),//this is used to add space between widgets
-                SizedBox(height:15),
-                TextField(decoration:InputDecoration(labelText:"Email",border:OutlineInputBorder()),controller:email),//this is text field for user input
-                SizedBox(height:15),
-                Text("Enter Your Password:",style:TextStyle(fontSize:15,fontWeight:FontWeight.bold)),
-                SizedBox(height:15),
-                TextField(
-                  controller:password,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: !isPasswordVisible,
+            child:Form(//Start of form
+              
+              key:_formkey,
+              child:Column(//start of columns
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,//convert row to column and everything starts from begining(left)
+
+                children: <Widget>[
+                  Center(child:Text("Welcome to ReycleConnect",style:TextStyle(color:Colors.green,fontWeight:FontWeight.bold,fontSize:25))),
                   
-                  //hides password with dots
-                  
-                  decoration: InputDecoration(labelText:"Password",
-                  border:OutlineInputBorder(),
-                  //to create an icon in passwoprd
-                  suffixIcon: IconButton(
-                    onPressed: () {
+                  SizedBox(height:20),
+                  Text("Enter Your registerd Email:-",style:TextStyle(fontWeight: FontWeight.bold,fontSize:15)),
+                  SizedBox(height:20),
+                  TextFormField(//textField for email
+                  controller:email,
+                  decoration: InputDecoration(hintText: "email",border:OutlineInputBorder()),
+                  validator: //used for validation
+                  (String? value){
+                    if(value==null||value.isEmpty){
+                      return "Email required";
+                    }
+                    if(!email_pattern.hasMatch(value)){
+                      return "Invalid email";
+
+                    }
+                    return null;
+                  }
+                  ),
+                  SizedBox(height:20),
+                  Text("Enter Your Password:-",style:TextStyle(fontSize:15,fontWeight: FontWeight.bold)),
+                  SizedBox(height:20),
+                  TextFormField(
+                    controller:password,
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: isPasswordVisible,
+                    decoration: InputDecoration(hintText: "password",border:OutlineInputBorder(),
+                    suffixIcon: IconButton(onPressed: (){
                       setState(() {
                         isPasswordVisible=!isPasswordVisible;
                       });
-                    }, 
-                    icon: Icon(
-                      isPasswordVisible?Icons.visibility:Icons.visibility_off
-                    ))),
-                  
-                ),
-                SizedBox(height:15),
-                Center(child:SizedBox(
-                  width:200,
-                  child:ElevatedButton(onPressed:() async{
-                    bool success=await ApiService.login(email: email.text, password: password.text);
-                    if(success){
-                      print("login success full");
-
+                    }, icon: Icon(isPasswordVisible?Icons.visibility_off:Icons.visibility))
+                    
+                    ),
+                    validator:(String? value){
+                      if(value==null||value.isEmpty){
+                        return "Enter password";
+                      }
+                      
+                      return null;
                     }
-                    else{
-                      print("login unsuccessfull");
-                    }
-                  },
-                  child: Text("Login"))
-                )),
-                SizedBox(height:15),
-                Center(child:
-                  TextButton(onPressed:(){
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=>const Forgot_password()),);
-                  },
-                  child:Text("forgot password")),
+                  ),
+                  SizedBox(height:20),
+                  Center(child: SizedBox(//button
+                    width:200,
+                    child:ElevatedButton(onPressed: () async{
+                      //to trigger Validation
+                      if(_formkey.currentState!.validate()){
 
-                ),
-                Center(child:Row(
-                  children: [
-                    SizedBox(width: 80),
-                    Text("Don't have account ?"),
+                    
+                      bool success=await ApiService.login(email: email.text, password: password.text);
+                      if(success){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: 
+                          (context)=>HomePage())
+
+                        );
+                      }
+                      }
+                    },child:Text("Login"))
+
+                  )),
+                  SizedBox(height:30),
+                  Center(child: TextButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder:(context)=>Forgot_password())
+
+                    );
+                  }, child: Text("Forgot Password"))),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                    Text("Don't have Account?"),
                     TextButton(onPressed:(){
-                      //to redirect to second page
-                      Navigator.push(context,
-                      MaterialPageRoute(builder: (context)=>const Signup()),
-                      );
-                    },
-                    child:Text("create account"),)
-                  ],
-                )
-                )
-                
-                
-              ]
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>Signup()));
+                    }, child: Text("create account"))
+                  ],),
+
+              ],)
+            ),
             )
-          )
+            
         )
         ),
     );

@@ -6,7 +6,7 @@ class ApiService {
   //login api
   static Future<bool> login({required String email,required String password})async{
     try{
-      final url=Uri.parse("$base_url/auth.login");
+      final url=Uri.parse("$base_url/login");
 
       final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"password":password}))
       .timeout(const Duration(seconds: 15));
@@ -20,10 +20,10 @@ class ApiService {
     }
     
   }
-  //sign-up api
+  //create Account api
   static Future<bool> signup({required String email,required String username,required String phonenumber,required String password})
   async{
-    final url=Uri.parse("$base_url/auth/signup");
+    final url=Uri.parse("$base_url/createaccount");
 
     final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"username":username,"phno":phonenumber,"password":password}
     )
