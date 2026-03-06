@@ -106,16 +106,16 @@ class LoginPage extends StatefulWidget{
                     child:ElevatedButton(onPressed: () async{
                       //to trigger Validation
                       if(_formkey.currentState!.validate()){
-
-                    
-                      bool success=await ApiService.login(email: email.text, password: password.text);
-                      if(success){
+                      String response=await ApiService.login(email: email.text, password: password.text);
+                      //bool success=true;
+                      if(!response.isEmpty){
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: 
                           (context)=>HomePage())
 
                         );
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));//it will display dynamically on screen
                       }
                       }
                     },child:Text("Login"))

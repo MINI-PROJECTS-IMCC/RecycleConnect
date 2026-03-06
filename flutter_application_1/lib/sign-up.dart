@@ -47,9 +47,9 @@ class _SignPageState extends State<Signup>{
                   crossAxisAlignment:CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Center(child: Text("Welcome",style:TextStyle(fontSize:15,fontWeight:FontWeight.bold))),
+                    Center(child: Text("Welcome",style:TextStyle(fontSize:20,fontWeight:FontWeight.bold))),
                     SizedBox(height:15),
-                    Center(child:Text("Create Your Account",style:TextStyle(fontSize:15,fontWeight:FontWeight.bold))),
+                    Center(child:Text("Create Your Account",style:TextStyle(fontSize:20,fontWeight:FontWeight.bold))),
                     SizedBox(height:15),
                     Text("Enter your Email:-"),
                     SizedBox(height:15),
@@ -168,7 +168,17 @@ class _SignPageState extends State<Signup>{
                       child:ElevatedButton(onPressed: () async{
                         
                         if(_formkey.currentState!.validate()){
-                        bool success=await ApiService.signup(email: emailcontoller.text, username: usernamecontroller.text, phonenumber: phnocontroller.text, password: passwordcontoller1.text);
+                        //String response=await ApiService.signup(email: emailcontoller.text, username: usernamecontroller.text, phonenumber: phnocontroller.text, password: passwordcontoller1.text);
+                        /*
+                          if(response.isNotEmpty){
+                           Navigator.push(context,
+                          MaterialPageRoute(builder:
+                          (context)=>VerifyEmail()));
+                        }
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));
+                        
+                        */ 
+                        bool success=true;
                         if(success){
                            Navigator.push(context,
                           MaterialPageRoute(builder:
