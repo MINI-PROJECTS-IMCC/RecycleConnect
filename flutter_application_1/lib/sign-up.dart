@@ -22,8 +22,11 @@ class _SignPageState extends State<Signup>{
   RegExp email_pattern=RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
   @override
   Widget build(BuildContext context){
+    
+    double screenWidth=MediaQuery.of(context).size.width;
     return Scaffold(
       body:Container(
+        
         decoration: BoxDecoration(
           image:DecorationImage(
             image: AssetImage("assets/images/bg-login.png"),
@@ -31,8 +34,9 @@ class _SignPageState extends State<Signup>{
           ),
           ),
           child:Center(
+            child:SingleChildScrollView(
             child:Container(
-               width:400,
+               width:screenWidth*0.3,
                padding:EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color:Colors.white,
@@ -48,11 +52,11 @@ class _SignPageState extends State<Signup>{
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Center(child: Text("Welcome",style:TextStyle(fontSize:20,fontWeight:FontWeight.bold))),
-                    SizedBox(height:15),
+                    SizedBox(height:10),
                     Center(child:Text("Create Your Account",style:TextStyle(fontSize:20,fontWeight:FontWeight.bold))),
-                    SizedBox(height:15),
+                    SizedBox(height:10),
                     Text("Enter your Email:-"),
-                    SizedBox(height:15),
+                    SizedBox(height:10),
                     TextFormField(
                       controller:emailcontoller,
                       decoration: InputDecoration(hintText: "email",border:OutlineInputBorder()),
@@ -66,9 +70,9 @@ class _SignPageState extends State<Signup>{
                         return null;
                       }
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:10),
                     Text("Enter your Name:-"),
-                    SizedBox(height:15),
+                    SizedBox(height:10),
                     TextFormField(
                       decoration:InputDecoration(hintText:"username",border:OutlineInputBorder()),
                       validator:(String? value){
@@ -80,9 +84,9 @@ class _SignPageState extends State<Signup>{
                       }
 
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:10),
                     Text("Enter Your Phone Number:-"),
-                    SizedBox(height:15),
+                    SizedBox(height:10),
                     TextFormField(
                       controller:phnocontroller,
                       decoration: InputDecoration(hintText: "phone number",border:OutlineInputBorder()),
@@ -96,9 +100,9 @@ class _SignPageState extends State<Signup>{
                         return null;
                       }
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:10),
                     Text("Create Password:-"),
-                    SizedBox(height:15),
+                    SizedBox(height:10),
                     TextFormField(
                        controller:passwordcontoller1,
                        keyboardType: TextInputType.visiblePassword,
@@ -136,9 +140,9 @@ class _SignPageState extends State<Signup>{
                       }
 
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:10),
                     Text("Confirm Password:-"),
-                    SizedBox(height:15),
+                    SizedBox(height:10),
                     TextFormField(
                       keyboardType: TextInputType.visiblePassword,
                       controller:passwordcontroller2,
@@ -162,14 +166,14 @@ class _SignPageState extends State<Signup>{
 
                       }
                     ),
-                    SizedBox(height:20),
+                    SizedBox(height:10),
                     Center(child:  SizedBox(
                       width:200,
                       child:ElevatedButton(onPressed: () async{
                         
                         if(_formkey.currentState!.validate()){
-                        //String response=await ApiService.signup(email: emailcontoller.text, username: usernamecontroller.text, phonenumber: phnocontroller.text, password: passwordcontoller1.text);
-                        /*
+                        String response=await ApiService.signup(email: emailcontoller.text, username: usernamecontroller.text, phonenumber: phnocontroller.text, password: passwordcontoller1.text);
+                        
                           if(response.isNotEmpty){
                            Navigator.push(context,
                           MaterialPageRoute(builder:
@@ -177,8 +181,8 @@ class _SignPageState extends State<Signup>{
                         }
                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));
                         
-                        */ 
-                        bool success=true;
+                         
+                        /*bool success=true;
                         if(success){
                            Navigator.push(context,
                           MaterialPageRoute(builder:
@@ -186,7 +190,7 @@ class _SignPageState extends State<Signup>{
                         }
                         else{
                           print("Issue Occured");
-                        }
+                        }*/
                         }
 
                         
@@ -195,6 +199,7 @@ class _SignPageState extends State<Signup>{
                     ))
                 ],)
               )
+      )
       )
       )
     )

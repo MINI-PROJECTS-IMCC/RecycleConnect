@@ -20,13 +20,13 @@ class _VerifyEmailPage extends State<VerifyEmail>{
           )
       ),
       child:Center(child: Container(//for form of verify mail
-      width:400,
+      width:double.infinity,
       padding:EdgeInsets.all(20),
       decoration:BoxDecoration(
         color:Colors.white,
         borderRadius:BorderRadius.circular(20)
       ),
-      child:Form(child: Form(
+      child:Form(
         key:_formkey,
         child:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +66,7 @@ class _VerifyEmailPage extends State<VerifyEmail>{
           ]
         )
       
-      ))
+      )
 
 
       ),

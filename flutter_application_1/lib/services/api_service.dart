@@ -10,8 +10,10 @@ class ApiService {
 
       final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"password":password}))
       .timeout(const Duration(seconds: 15));
+      var data=jsonDecode(response.body);
 
-      return response.body;
+
+      return data["message"];
 
     }
     catch(e){
@@ -25,11 +27,12 @@ class ApiService {
   async{
     final url=Uri.parse("$base_url/createaccount");
 
-    final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"username":username,"phno":phonenumber,"password":password}
+    final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"name":username,"phone":phonenumber,"password":password}
     )
     
     ).timeout(const Duration(seconds:15));//request timeout
-    return response.body;
+    var data=jsonDecode(response.body);
+    return data["message"];
   }
 
   

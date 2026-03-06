@@ -14,8 +14,12 @@ class _Home extends State<HomePage>{
 
     @override
     Widget build(BuildContext context){
+
+     double screenHeight = MediaQuery.of(context).size.height;
+     double screenWidth = MediaQuery.of(context).size.width;
         return Scaffold(
             body:Container(
+                
                  
 
                 child:Column(
@@ -24,7 +28,7 @@ class _Home extends State<HomePage>{
                     children: [
                     
                     Container(
-                        height: 70,
+                       
                         decoration: BoxDecoration(
                             color:Colors.green
                         ),
@@ -46,8 +50,6 @@ class _Home extends State<HomePage>{
                                 )
                             )
                         ],)
-
-
                     ),
                     SizedBox(height:20),
                     Row(
@@ -58,7 +60,7 @@ class _Home extends State<HomePage>{
 
                     SizedBox(width:20),
                     Container(
-                        width:300,
+                        width:screenWidth*0.3,
                         padding:EdgeInsets.all(20),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -72,7 +74,7 @@ class _Home extends State<HomePage>{
                             SvgPicture.asset("assets/images/profile.svg",
                             height:90,
                             width:90,
-                            color:Colors.green),
+                            ),
                             SizedBox(height: 50),
                             
                             

@@ -31,9 +31,24 @@ class LoginPage extends StatefulWidget{
     bool isPasswordVisible=true;
     TextEditingController email=new TextEditingController();
     TextEditingController password=new TextEditingController();
-     Widget build(BuildContext context) {
+
+   
+
+    //functions:-
+    void login() async{
+
+    }
+
+
+
+
+
+    Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(//In Scaffold we create Page Structure
             body:Container(
+              
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/images/bg-login.png"),
@@ -42,7 +57,8 @@ class LoginPage extends StatefulWidget{
               
             child:Center(
             child:Container(//conatiner for form
-            width:400,
+              width: screenWidth* 0.25,
+               
              padding:EdgeInsets.all(20),
             decoration: BoxDecoration(
               color:Colors.white,
@@ -65,6 +81,7 @@ class LoginPage extends StatefulWidget{
                   TextFormField(//textField for email
                   controller:email,
                   decoration: InputDecoration(hintText: "email",border:OutlineInputBorder()),
+                  textInputAction: TextInputAction.next,
                   validator: //used for validation
                   (String? value){
                     if(value==null||value.isEmpty){
@@ -82,6 +99,11 @@ class LoginPage extends StatefulWidget{
                   SizedBox(height:20),
                   TextFormField(
                     controller:password,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (value){
+
+                    },
+
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: isPasswordVisible,
                     decoration: InputDecoration(hintText: "password",border:OutlineInputBorder(),
@@ -107,8 +129,16 @@ class LoginPage extends StatefulWidget{
                       //to trigger Validation
                       if(_formkey.currentState!.validate()){
                       String response=await ApiService.login(email: email.text, password: password.text);
-                      //bool success=true;
-                      if(!response.isEmpty){
+                      /*bool success=true;
+                      if(success){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: 
+                          (context)=>HomePage())
+
+                        );
+                      }*/
+                      if(response=="Login Successfull"){
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: 
@@ -145,5 +175,9 @@ class LoginPage extends StatefulWidget{
         )
         ),
     );
+
+
+            
+            
      }
   }
