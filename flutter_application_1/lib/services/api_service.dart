@@ -28,7 +28,7 @@ class ApiService {
   static Future<String> signup({required String email,required String username,required String phonenumber,required String password})
   async{
     try{
-      final url=Uri.parse("$base_url/createaccount");
+      final url=Uri.parse("$base_url/createAccount");
       final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"name":username,"phone":phonenumber,"password":password}
       )
     
