@@ -138,6 +138,7 @@ class LoginPage extends StatefulWidget{
 
                         );
                       }*/
+                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));//it will display dynamically on screen
                       if(response=="Login Successfull"){
                         Navigator.push(
                           context,
@@ -145,7 +146,7 @@ class LoginPage extends StatefulWidget{
                           (context)=>HomePage())
 
                         );
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));//it will display dynamically on screen
+                     
                       }
                       }
                     },child:Text("Login"))
