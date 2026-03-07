@@ -10,14 +10,16 @@ class ApiService {
 
       final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"password":password}))
       .timeout(const Duration(seconds: 15));
-      var data=jsonDecode(response.body);
-
-
-      return data["message"];
-
+      if(response.statusCode==200){
+        var data=jsonDecode(response.body);
+        return data["message"];
+      }
+      else{
+        return "Server error";
+      }
     }
     catch(e){
-      print("Request time out");
+     
       return "Some error occured";
     }
     
@@ -25,14 +27,19 @@ class ApiService {
   //create Account api
   static Future<String> signup({required String email,required String username,required String phonenumber,required String password})
   async{
-    final url=Uri.parse("$base_url/createaccount");
-
-    final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"name":username,"phone":phonenumber,"password":password}
-    )
+    try{
+      final url=Uri.parse("$base_url/createaccount");
+      final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"name":username,"phone":phonenumber,"password":password}
+      )
     
-    ).timeout(const Duration(seconds:15));//request timeout
-    var data=jsonDecode(response.body);
-    return data["message"];
+      ).timeout(const Duration(seconds:15));//request timeout
+      var data=jsonDecode(response.body);
+      return data["message"];
+    }
+    catch(e)
+    {
+      return "Some error occured";
+    }
   }
 
   
