@@ -174,7 +174,7 @@ class _SignPageState extends State<Signup>{
                         if(_formkey.currentState!.validate()){
                         String response=await ApiService.signup(email: emailcontoller.text, username: usernamecontroller.text, phonenumber: phnocontroller.text, password: passwordcontoller1.text);
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));
-                          if(response=="Account created"){
+                          if(response=="Account created "){
                            Navigator.push(context,
                           MaterialPageRoute(builder:
                           (context)=>VerifyEmail()));

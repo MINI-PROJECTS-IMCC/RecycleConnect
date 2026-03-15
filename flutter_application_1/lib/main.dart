@@ -3,6 +3,7 @@ import "package:flutter_application_1/screens/homepage.dart";
 import "sign-up.dart";
 import "forgot_password.dart";
 import "services/api_service.dart";
+import "dart:math";
 //it conatins Scaffold, AppBar, Text,widget without this nothing works
 void main(){
   runApp(MyApp());//Start this as root of App
@@ -26,27 +27,31 @@ class LoginPage extends StatefulWidget{
   class _LoginPageState extends State<LoginPage>{
     //form object creation
     final GlobalKey<FormState> _formkey=new GlobalKey<FormState>();
-    RegExp email_pattern=RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-    
+    RegExp email_pattern=RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"); 
     bool isPasswordVisible=true;
-    TextEditingController email=new TextEditingController();
-    TextEditingController password=new TextEditingController();
-
+    TextEditingController _email=new TextEditingController();
+    TextEditingController _password=new TextEditingController();
+    String _role="user";
    
 
     //functions:-
     void login() async{
+      String response=await ApiService.login(email:_email.text, password:_password.text,role:_role);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));//it will display dynamically on screen
+      if(response=="Login Successfull" && _role=="user"){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: 
+          (context)=>HomePage())
+
+        );
+      }
 
     }
-
-
-
-
-
     Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(//In Scaffold we create Page Structure
+    return Scaffold(//In Scaffold we create Page Structure it is the skeleton
             body:Container(
               
               decoration: BoxDecoration(
@@ -57,7 +62,7 @@ class LoginPage extends StatefulWidget{
               
             child:Center(
             child:Container(//conatiner for form
-              width: screenWidth* 0.25,
+              width: min(410,screenWidth*0.92),//width calculation
                
              padding:EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -73,13 +78,43 @@ class LoginPage extends StatefulWidget{
               crossAxisAlignment: CrossAxisAlignment.start,//convert row to column and everything starts from begining(left)
 
                 children: <Widget>[
-                  Center(child:Text("Welcome to ReycleConnect",style:TextStyle(color:Colors.green,fontWeight:FontWeight.bold,fontSize:25))),
+                  Center(child:Text("Welcome to ReycleConnect♻️",style:TextStyle(color:Colors.green,fontWeight:FontWeight.bold,fontSize:25))),
                   
-                  SizedBox(height:20),
+                  SizedBox(height:10),
+                  Text("I am a..",style:TextStyle(fontWeight:FontWeight.bold,fontSize: 15)),
+                  Row(children:<Widget> [
+                    Expanded(child: RadioListTile<String>(value: 'user',
+                    title:Text("👤Individual",style:TextStyle(
+                      fontSize:13
+                    )),
+                    groupValue: _role,
+                    onChanged: (String? val){
+                      if(val!=null){
+                        setState(() {
+                          _role=val;
+                        });
+                      }
+                    },
+                    
+                  ),),
+                  Expanded(child: RadioListTile<String>(value: 'org',
+                    title:Text("🏢 Organization",style:TextStyle(fontSize:13)),
+                    groupValue: _role,
+                    onChanged: (String? val){
+                      if(val!=null){
+                        setState(() {
+                          _role=val;
+                        });
+                      }
+                    }
+                    ))
+                   
+                  
+                  ],),
                   Text("Enter Your registerd Email:-",style:TextStyle(fontWeight: FontWeight.bold,fontSize:15)),
                   SizedBox(height:20),
                   TextFormField(//textField for email
-                  controller:email,
+                  controller:_email,
                   decoration: InputDecoration(hintText: "email",border:OutlineInputBorder()),
                   textInputAction: TextInputAction.next,
                   validator: //used for validation
@@ -98,7 +133,7 @@ class LoginPage extends StatefulWidget{
                   Text("Enter Your Password:-",style:TextStyle(fontSize:15,fontWeight: FontWeight.bold)),
                   SizedBox(height:20),
                   TextFormField(
-                    controller:password,
+                    controller:_password,
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (value){
 
@@ -128,8 +163,7 @@ class LoginPage extends StatefulWidget{
                     child:ElevatedButton(onPressed: () async{
                       //to trigger Validation
                       if(_formkey.currentState!.validate()){
-                      String response=await ApiService.login(email: email.text, password: password.text);
-                      /*bool success=true;
+                      bool success=true;
                       if(success){
                         Navigator.push(
                           context,
@@ -137,17 +171,8 @@ class LoginPage extends StatefulWidget{
                           (context)=>HomePage())
 
                         );
-                      }*/
-                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(response)));//it will display dynamically on screen
-                      if(response=="Login Successfull"){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: 
-                          (context)=>HomePage())
-
-                        );
-                     
                       }
+                      //login();
                       }
                     },child:Text("Login"))
 

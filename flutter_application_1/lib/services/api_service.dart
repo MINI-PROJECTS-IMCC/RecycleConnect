@@ -4,11 +4,11 @@ import "package:http/http.dart" as http;//to import http request response lib
 class ApiService {
   static const base_url="";
   //login api
-  static Future<String> login({required String email,required String password})async{
+  static Future<String> login({required String email,required String password,required String role})async{
     try{
       final url=Uri.parse("$base_url/login");
 
-      final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"password":password}))
+      final response=await http.post(url,headers:{"Content-Type":"application/json"},body:jsonEncode({"email":email,"password":password,"role":role}))
       .timeout(const Duration(seconds: 15));
       if(response.statusCode==200){
         var data=jsonDecode(response.body);
