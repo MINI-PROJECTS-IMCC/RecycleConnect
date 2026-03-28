@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter/rendering.dart";
 import "package:http/http.dart";
 import "package:flutter_svg/svg.dart";
 class HomePage extends StatefulWidget{
@@ -10,6 +11,31 @@ class HomePage extends StatefulWidget{
 
 }
 class _Home extends State<HomePage>{
+    Widget _buildCategoryCard(String icon,String title,String description){
+        return Card(
+            elevation:3,
+            shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child:InkWell(
+            onTap: (){
+
+            },
+            borderRadius: BorderRadius.circular(20),
+            child:Padding(padding: EdgeInsets.all(50),child:Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children:[
+                        
+                Text("$icon $title",style:TextStyle(fontSize:35)),
+                Divider(),
+                SizedBox(height:30),
+                Text("This includes:-$description",style:TextStyle(fontSize:20))
+            ]
+            )),
+            )
+
+        );
+    }
    
 
     @override
@@ -95,7 +121,41 @@ class _Home extends State<HomePage>{
                 ],)
                 
             ),
-            body:Row(
+            body:
+            SingleChildScrollView(
+                padding: EdgeInsets.all(20),
+                child:LayoutBuilder(builder: (context,constraints)
+                {
+                    int crossAxisCount=1;
+                    if(constraints.maxWidth>=900){
+                        crossAxisCount=3;//for laptop
+                    }
+                    else if(constraints.maxWidth>=600){
+                        crossAxisCount=2;//tablet
+                    }
+                    else {
+                        crossAxisCount=1;//mobile
+                    }
+                    return GridView.count( 
+                        crossAxisCount: crossAxisCount,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        childAspectRatio: 2,
+                        children: [
+                            _buildCategoryCard("📃","Paper","newspaper,books")
+                        ],
+
+                    );
+                })
+            )
+            /*Column(
+              
+                children: [
+                Wrap(
+                    spacing: 16,
+                    runSpacing: 20,
                 
                 children: [
 
@@ -112,9 +172,9 @@ class _Home extends State<HomePage>{
                         mainAxisSize: MainAxisSize.min,
                         children:[
                         
-                            Text("🧴 Plastic"),
+                            Text("🧴 Plastic",style:TextStyle(fontSize:35)),
                             SizedBox(height:30),
-                            Text("This includes:-Plastic bags,Plastic Bottles")
+                            Text("This includes:-Plastic bags,Water Bottles,Soda Bottles,Milk jugs & shampoo bottles",style:TextStyle(fontSize:20))
                         ]
                     )),
                     )
@@ -132,15 +192,34 @@ class _Home extends State<HomePage>{
                         mainAxisSize: MainAxisSize.min,
                         children:[
                         
-                            Text("📃 Papers"),
+                            Text("📃 Papers",style:TextStyle(fontSize:35)),
                             SizedBox(height:30),
-                            Text("This includes:-NewsPaper,Books,Sheets")
+                            Text("This includes:-NewsPaper,Books,Sheets",style:TextStyle(fontSize:20))
                         ]
                     )),
                     )
 
                 ),
+                Card(
+                    elevation:3,
+                    shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(20)),
+                    child:InkWell(
+                        onTap:(){
+
+                        },
+                        borderRadius: BorderRadius.circular(20),
+                        child:Padding(padding:EdgeInsets.all(50),child:Column(
+                            mainAxisSize:MainAxisSize.min,children: [
+                                Text("🔌 E-Waste",style:TextStyle(fontSize:35)),
+                                SizedBox(height:30),
+                                Text("This includes:-phones,laptop,wires,leds,bulbs",style:TextStyle(fontSize:20))
+                            ],))
+                    )
+                )
             ],)
+
+            ],)*/
+            
             
 
             );
