@@ -2,7 +2,7 @@ import "dart:convert";
 
 import "package:http/http.dart" as http;//to import http request response lib
 class ApiService {
-  static const base_url="";
+  static const base_url="http://localhost:8080/api";
   //login api
   static Future<String> login({required String email,required String password,required String role})async{
     try{

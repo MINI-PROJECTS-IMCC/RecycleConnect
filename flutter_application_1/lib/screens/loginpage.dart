@@ -35,6 +35,22 @@ class LoginPage extends StatefulWidget{
       }
 
     }
+
+    Future<void> _submitLogin() async {
+      if(_formkey.currentState!.validate()){
+        bool success=true;
+        if(success){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder:
+            (context)=>HomePage())
+
+          );
+          //login();
+        }
+
+      }
+    }
     Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
@@ -123,7 +139,7 @@ class LoginPage extends StatefulWidget{
                     controller:_password,
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (value){
-
+                      _submitLogin();
                     },
 
                     keyboardType: TextInputType.visiblePassword,
@@ -147,22 +163,7 @@ class LoginPage extends StatefulWidget{
                   SizedBox(height:20),
                   Center(child: SizedBox(//button
                     width:200,
-                    child:ElevatedButton(onPressed: () async{
-                      //to trigger Validation
-                      if(_formkey.currentState!.validate()){
-                      bool success=true;
-                      if(success){
-                        /*Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: 
-                          (context)=>HomePage())
-
-                        );*/
-                        login();
-                      }
-                      
-                      }
-                    },child:Text("Login"))
+                    child:ElevatedButton(onPressed: _submitLogin,child:Text("Login"))
 
                   )),
                   SizedBox(height:30),

@@ -67,6 +67,7 @@ flutter:
   - assets/images/bg-login.png
   - assets/images/profile.svg
   - assets/images/sunrise.webp
+  - assets/images/pickup.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
